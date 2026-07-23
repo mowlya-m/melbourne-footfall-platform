@@ -1,0 +1,9 @@
+# Every PR requires review from the code owner.
+# In a team this maps directories to specialists; solo it enforces
+# that you are formally the reviewer of record on every change.
+
+*                       @mowlya-m
+
+/infra/                 @mowlya-m
+/transforms/            @mowlya-m
+/.github/workflows/     @mowlya-m
