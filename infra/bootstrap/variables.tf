@@ -40,3 +40,12 @@ variable "github_repo" {
   description = "Repository name. The OIDC trust policy is scoped to this repo only."
   type        = string
 }
+variable "github_owner_id" {
+  description = "Numeric GitHub account ID. Appears in the OIDC subject claim as owner@id."
+  type        = string
+}
+
+variable "github_repo_id" {
+  description = "Numeric GitHub repository ID. Appears in the OIDC subject claim as repo@id."
+  type        = string
+}
