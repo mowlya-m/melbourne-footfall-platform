@@ -37,3 +37,8 @@ output "gold_prefix" {
   description = "Full S3 URI of the Gold layer."
   value       = "s3://${aws_s3_bucket.data.id}/gold/"
 }
+
+output "bronze_table_name" {
+  description = "Glue catalog table over the Bronze layer, queryable from Athena."
+  value       = aws_glue_catalog_table.bronze_pedestrian.name
+}

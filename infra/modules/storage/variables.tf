@@ -41,3 +41,14 @@ variable "athena_scan_limit_bytes" {
   type        = number
   default     = 1073741824 # 1 GiB
 }
+
+variable "bronze_projection_start_date" {
+  description = "Lower bound for Athena partition projection on the Bronze table. Should be on or before the first Firehose delivery; earlier is harmless but enumerates more empty partitions."
+  type        = string
+  default     = "2026-07-24"
+
+  validation {
+    condition     = can(regex("^\\d{4}-\\d{2}-\\d{2}$", var.bronze_projection_start_date))
+    error_message = "Must be YYYY-MM-DD."
+  }
+}
