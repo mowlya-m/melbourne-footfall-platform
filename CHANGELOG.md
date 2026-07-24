@@ -16,8 +16,11 @@ This project adheres to [Semantic Versioning](https://semver.org/).
   DynamoDB locking, and GitHub OIDC federation for keyless deployment.
 - ADR 0001: GitHub OIDC federation over stored access keys.
 - ADR 0002: Billing alarm provisioned before any billable resource.
-- Storage module: S3 data lake with medallion prefixes and lifecycle tiering, Athena results bucket, Glue catalog database, and an Athena workgroup enforcing a per-query scan limit.
-- CD workflow deploying the dev environment via GitHub OIDC.
-- ADR 0003: Athena over Redshift for the Gold layer.
-- Fix: OIDC trust policy now matches subject claims containing GitHub's numeric owner and repository IDs.
+- Producer Lambda polling the City of Melbourne pedestrian API, deduplicating against a DynamoDB watermark, and emitting readings to Kinesis.
+- Kinesis Data Stream and Firehose delivery landing gzipped JSON in Bronze, partitioned by date and hour.
+- ADR 0004: ingestion implemented as a poll-to-stream adapter.
 
+
+### Fixed
+- Producer now newline-delimits records so Firehose-delivered objects are valid NDJSON.
+- OIDC trust policy now matches subject claims containing GitHub's numeric owner and repository IDs.

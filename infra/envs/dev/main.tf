@@ -13,6 +13,10 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 5.70"
     }
+    archive = {
+      source  = "hashicorp/archive"
+      version = "~> 2.6"
+    }
   }
 
   backend "s3" {
@@ -50,4 +54,30 @@ module "storage" {
   bronze_ia_transition_days     = 30
   silver_ia_transition_days     = 60
   athena_results_retention_days = 3
+}
+
+module "streaming" {
+  source = "../../modules/streaming"
+
+  project_name    = var.project_name
+  environment     = var.environment
+  data_bucket_arn = module.storage.data_bucket_arn
+
+  shard_count             = 1
+  buffer_interval_seconds = 60
+  buffer_size_mb          = 5
+}
+
+module "ingestion" {
+  source = "../../modules/ingestion"
+
+  project_name = var.project_name
+  environment  = var.environment
+  aws_region   = var.aws_region
+
+  kinesis_stream_name = module.streaming.stream_name
+  kinesis_stream_arn  = module.streaming.stream_arn
+
+  schedule_expression = "rate(5 minutes)"
+  max_records_per_run = 500
 }
