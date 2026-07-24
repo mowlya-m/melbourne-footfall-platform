@@ -1,0 +1,8 @@
+# Intentionally empty.
+#
+# The producer uses only the standard library plus boto3, which the Lambda
+# Python runtime already provides. That keeps the deployment package to source
+# files alone: no build step, no vendored wheels, no supply chain to audit,
+# and a cold start measured in tens of milliseconds rather than seconds.
+#
+# Add dependencies here only if the standard library genuinely cannot do the job.
