@@ -19,3 +19,5 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Producer Lambda polling the City of Melbourne pedestrian API, deduplicating against a DynamoDB watermark, and emitting readings to Kinesis.
 - Kinesis Data Stream and Firehose delivery landing gzipped JSON in Bronze, partitioned by date and hour.
 - ADR 0004: ingestion implemented as a poll-to-stream adapter.
+### Fixed
+- OIDC trust policy now matches subject claims containing GitHub's numeric owner and repository IDs.
