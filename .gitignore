@@ -57,3 +57,7 @@ Thumbs.db
 
 # Notebooks
 .ipynb_checkpoints/
+.Rhistory
+.RData
+.Rhistory
+.RData
