@@ -211,19 +211,43 @@ Full breakdown in [`docs/cost-analysis.md`](docs/cost-analysis.md).
 
 ---
 
-## Status
+## Verify it works
 
-| Phase | Status |
-|---|---|
-| Repo scaffold | in progress |
-| CI/CD | not started |
-| Infrastructure | not started |
-| Streaming ingestion | not started |
-| Batch transformation | not started |
-| Gold layer | not started |
-| Dashboard | not started |
+Invoke the producer and watch a batch land:
+
+```bash
+aws lambda invoke --function-name melbourne-footfall-producer-dev \
+  --region ap-southeast-2 --cli-binary-format raw-in-base64-out \
+  --payload '{}' /tmp/out.json && cat /tmp/out.json
+```
+
+Query Bronze through Athena:
+
+```bash
+bash scripts/query_bronze.sh
+```
+
+That runs a row count, the busiest sensors, a duplicate check on the natural
+key, and an ingestion-lag comparison between event time and processing time.
 
 ---
+## Status
+
+| Component | Status |
+|---|---|
+| Repository scaffold, CI, CD | Done |
+| AWS bootstrap: OIDC, remote state, billing alarm | Done |
+| Storage: S3 medallion layout, Glue catalog, Athena workgroup | Done |
+| Ingestion: producer Lambda, Kinesis, Firehose to Bronze | Done |
+| Bronze catalog table, queryable via Athena | Done |
+| Silver: Glue job for cleaning and deduplication | Not started |
+| Gold: dbt star schema with SCD Type 2 on sensors | Not started |
+| Orchestration: Step Functions | Not started |
+| Observability: alarms, freshness checks, runbook | Not started |
+| Forecasting model and dashboard | Not started |
+
+The pipeline currently ingests roughly 500 readings per run across 134 sensors,
+every five minutes, and lands them in Bronze as partitioned NDJSON.
 
 ## Licence
 
