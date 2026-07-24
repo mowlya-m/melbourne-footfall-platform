@@ -26,9 +26,4 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Fixed
 - OIDC trust policy now matches subject claims containing GitHub's numeric owner and repository IDs.
 =======
-
-
-### Fixed
-- Producer now newline-delimits records so Firehose-delivered objects are valid NDJSON.
-- OIDC trust policy now matches subject claims containing GitHub's numeric owner and repository IDs.
 >>>>>>> origin/main
