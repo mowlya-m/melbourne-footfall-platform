@@ -164,9 +164,15 @@ data "aws_iam_policy_document" "github_actions_trust" {
     }
 
     condition {
-      test     = "StringEquals"
-      variable = "token.actions.githubusercontent.com:aud"
-      values   = ["sts.amazonaws.com"]
+      test     = "StringLike"
+      variable = "token.actions.githubusercontent.com:sub"
+      values = [
+        # GitHub embeds immutable numeric owner and repo IDs in the subject
+        # claim so that renaming either cannot silently transfer access.
+        # Both the legacy and current formats are accepted.
+        "repo:${var.github_owner}/${var.github_repo}:*",
+        "repo:${var.github_owner}@${var.github_owner_id}/${var.github_repo}@${var.github_repo_id}:*",
+      ]
     }
 
     # Scoped to this repository. Any other repo presenting a token is rejected.

@@ -16,3 +16,8 @@ This project adheres to [Semantic Versioning](https://semver.org/).
   DynamoDB locking, and GitHub OIDC federation for keyless deployment.
 - ADR 0001: GitHub OIDC federation over stored access keys.
 - ADR 0002: Billing alarm provisioned before any billable resource.
+- Storage module: S3 data lake with medallion prefixes and lifecycle tiering, Athena results bucket, Glue catalog database, and an Athena workgroup enforcing a per-query scan limit.
+- CD workflow deploying the dev environment via GitHub OIDC.
+- ADR 0003: Athena over Redshift for the Gold layer.
+- Fix: OIDC trust policy now matches subject claims containing GitHub's numeric owner and repository IDs.
+
