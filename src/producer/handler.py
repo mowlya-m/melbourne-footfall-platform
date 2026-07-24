@@ -51,7 +51,10 @@ def _emit_batch(records: list[dict]) -> tuple[int, int]:
 
     entries = [
         {
-            "Data": json.dumps(record).encode("utf-8"),
+            # Firehose concatenates record bodies verbatim. Without a trailing
+            # newline the delivered object is one unparseable blob rather than
+            # newline-delimited JSON, which Athena and Spark both require.
+            "Data": (json.dumps(record) + "\n").encode("utf-8"),
             # Partitioning by sensor keeps one sensor's readings ordered within
             # a shard, which the hot-path consumer relies on for aggregation.
             "PartitionKey": str(record["location_id"]),
