@@ -4,7 +4,7 @@ output "data_bucket_name" {
 }
 
 output "bronze_prefix" {
-  description = "Where the Firehose delivery stream writes from PR #7."
+  description = "Where the Firehose delivery stream writes raw records."
   value       = module.storage.bronze_prefix
 }
 
@@ -16,4 +16,24 @@ output "glue_database_name" {
 output "athena_workgroup_name" {
   description = "Athena workgroup enforcing the per-query scan limit."
   value       = module.storage.athena_workgroup_name
+}
+
+output "kinesis_stream_name" {
+  description = "Stream carrying individual sensor readings."
+  value       = module.streaming.stream_name
+}
+
+output "firehose_name" {
+  description = "Delivery stream landing records in Bronze."
+  value       = module.streaming.firehose_name
+}
+
+output "producer_function_name" {
+  description = "Producer Lambda, for manual invocation during verification."
+  value       = module.ingestion.function_name
+}
+
+output "watermark_table_name" {
+  description = "DynamoDB table holding the producer high-water mark."
+  value       = module.ingestion.watermark_table_name
 }
