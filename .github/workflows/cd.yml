@@ -61,3 +61,21 @@ jobs:
       - name: Outputs
         working-directory: infra/envs/dev
         run: terraform output
+        
+      - name: Set up Python for dbt
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dbt
+        run: pip install dbt-athena-community
+
+      - name: dbt deps
+        working-directory: transforms
+        run: dbt deps
+
+      - name: dbt build
+        working-directory: transforms
+        env:
+          DBT_PROFILES_DIR: ${{ github.workspace }}/transforms
+        run: dbt build --profiles-dir .

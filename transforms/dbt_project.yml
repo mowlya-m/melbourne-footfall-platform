@@ -1,0 +1,24 @@
+name: melbourne_footfall
+version: "1.0.0"
+config-version: 2
+
+profile: melbourne_footfall
+
+model-paths: ["models"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  melbourne_footfall:
+    # Staging reads Silver, materialised as views: cheap, always fresh.
+    staging:
+      +materialized: view
+    # Marts are the Gold layer: materialised as tables so the dashboard
+    # queries pre-computed results rather than re-running joins every time.
+    marts:
+      +materialized: table

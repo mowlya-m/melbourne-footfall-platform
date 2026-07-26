@@ -30,5 +30,8 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Silver catalog table via partition projection.
 - ADR 0006: pure-function PySpark transforms for testability.
 
+- Gold layer: dbt star schema — dim_date, SCD Type 2 dim_sensor, fact_footfall_hourly. Tested against live data: 245 facts, 89 sensor versions, all schema and referential tests passing.
+- ADR 0007: SCD Type 2 on the sensor dimension.
+
 ### Fixed
 - OIDC trust policy now matches subject claims containing GitHub's numeric owner and repository IDs.
