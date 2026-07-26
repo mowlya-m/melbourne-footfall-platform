@@ -213,7 +213,7 @@ Full breakdown in [`docs/cost-analysis.md`](docs/cost-analysis.md).
 
 ## Verify it works
 
-Invoke the producer and watch a batch land:
+**Ingest a batch** — invoke the producer and watch it emit to Kinesis:
 
 ```bash
 aws lambda invoke --function-name melbourne-footfall-producer-dev \
@@ -221,18 +221,38 @@ aws lambda invoke --function-name melbourne-footfall-producer-dev \
   --payload '{}' /tmp/out.json && cat /tmp/out.json
 ```
 
-Query Bronze through Athena:
+**Query the Bronze layer** through Athena:
 
 ```bash
 bash scripts/query_bronze.sh
 ```
 
-That runs a row count, the busiest sensors, a duplicate check on the natural
-key, and an ingestion-lag comparison between event time and processing time.
+**Run the Silver transformation** — the Glue job that cleans and deduplicates:
+
+```bash
+aws glue start-job-run \
+  --job-name melbourne-footfall-bronze-to-silver-dev \
+  --region ap-southeast-2
+```
+
+**Build the Gold star schema** with dbt, running every data test:
+
+```bash
+cd transforms
+export DBT_PROFILES_DIR=$(pwd)
+dbt deps
+dbt build --profiles-dir .
+```
+
+`dbt build` materialises the dimensions and fact, then runs uniqueness,
+not-null, referential-integrity and a custom grain test. If any test fails, the
+build fails — Gold does not publish wrong data.
 
 ---
 
 ### Status
+
+## Status
 
 | Component | Status |
 |---|---|
@@ -241,15 +261,17 @@ key, and an ingestion-lag comparison between event time and processing time.
 | Storage: S3 medallion layout, Glue catalog, Athena workgroup | Done |
 | Ingestion: producer Lambda, Kinesis, Firehose to Bronze | Done |
 | Bronze catalog table, queryable via Athena | Done |
-| Silver: Glue job for cleaning and deduplication | Not started |
-| Gold: dbt star schema with SCD Type 2 on sensors | Not started |
+| Silver: Glue PySpark job, cleaning and deduplication | Done |
+| Gold: dbt star schema with SCD Type 2 | Done |
 | Orchestration: Step Functions | Not started |
 | Observability: alarms, freshness checks, runbook | Not started |
 | Forecasting model and dashboard | Not started |
 
-The pipeline currently ingests roughly 500 readings per run across 134 sensors,
-every five minutes, and lands them in Bronze as partitioned NDJSON. A recent
-Athena query returned 503 readings across 84 active sensors.
+The full medallion pipeline is live and verified. Ingestion runs every five
+minutes; the batch layers are deployed by CI and rebuilt by dbt. A recent run
+produced 876 deduplicated Silver readings and a Gold star
+schema of 245 hourly facts across 89 sensor versions, with all 20 dbt data tests
+passing.
 
 ---
 
