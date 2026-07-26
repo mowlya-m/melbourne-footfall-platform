@@ -123,7 +123,7 @@ resource "aws_glue_job" "bronze_to_silver" {
     "--quarantine_path"                  = "s3://${var.data_bucket_name}/quarantine/pedestrian/"
     # Glue 4 defaults to ANSI SQL; the job relies on try_to_timestamp to tolerate
     # malformed input rather than aborting. Left explicit as documentation.
-    "--conf" = "spark.sql.ansi.enabled=true"
+    "--conf" = "spark.sql.ansi.enabled=false"
   }
 
   # A single retry covers transient Glue capacity errors without masking a real

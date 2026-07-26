@@ -50,12 +50,12 @@ def parse_and_type(df: DataFrame) -> DataFrame:
     `sensing_date`/`sensing_time` means one source of truth and correct DST
     handling.
     """
-    # try_to_timestamp returns null on a malformed value rather than throwing.
+    # to_timestamp returns null on a malformed value rather than throwing.
     # Spark runs in ANSI mode by default, where a plain cast would abort the
     # entire job on one bad record. A null here routes the row to quarantine.
     return (
-        df.withColumn("event_ts_utc", F.expr("try_to_timestamp(sensing_datetime)"))
-        .withColumn("ingested_ts_utc", F.expr("try_to_timestamp(ingested_at)"))
+        df.withColumn("event_ts_utc", F.expr("to_timestamp(sensing_datetime)"))
+        .withColumn("ingested_ts_utc", F.expr("to_timestamp(ingested_at)"))
         .withColumn("event_ts_local", F.from_utc_timestamp("event_ts_utc", MELBOURNE_TZ))
         .withColumn("event_date", F.to_date("event_ts_local"))
         .withColumn("event_hour", F.hour("event_ts_local"))
@@ -180,6 +180,7 @@ def main() -> None:
     spark = (
         SparkSession.builder.appName(args["JOB_NAME"])
         .config("spark.sql.session.timeZone", "UTC")
+        .config("spark.sql.ansi.enabled", "false")
         .getOrCreate()
     )
     _run(spark, args["bronze_path"], args["silver_path"], args["quarantine_path"])
