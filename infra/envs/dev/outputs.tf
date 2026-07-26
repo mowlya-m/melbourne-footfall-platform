@@ -37,3 +37,13 @@ output "watermark_table_name" {
   description = "DynamoDB table holding the producer high-water mark."
   value       = module.ingestion.watermark_table_name
 }
+
+output "glue_silver_job_name" {
+  description = "Bronze to Silver Glue job."
+  value       = module.processing.glue_job_name
+}
+
+output "silver_table_name" {
+  description = "Glue catalog table over Silver."
+  value       = module.processing.silver_table_name
+}

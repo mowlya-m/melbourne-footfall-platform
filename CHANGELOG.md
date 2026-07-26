@@ -15,15 +15,20 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - AWS bootstrap: CloudWatch billing alarm, Terraform S3 state backend with
   DynamoDB locking, and GitHub OIDC federation for keyless deployment.
 - ADR 0001: GitHub OIDC federation over stored access keys.
+
 - ADR 0002: Billing alarm provisioned before any billable resource.
+
 - Producer Lambda polling the City of Melbourne pedestrian API, deduplicating against a DynamoDB watermark, and emitting readings to Kinesis.
 - Kinesis Data Stream and Firehose delivery landing gzipped JSON in Bronze, partitioned by date and hour.
 - ADR 0004: ingestion implemented as a poll-to-stream adapter.
-<<<<<<< HEAD
+
 - Glue catalog table over Bronze using Athena partition projection, queryable without a crawler.
 - Verification script running row counts, top sensors, duplicate checks and ingestion lag through Athena.
 - ADR 0005: partition projection over a Glue crawler.
+
+- Bronze to Silver Glue job: cleaning, null coercion, deduplication, quarantine, timezone-correct date derivation. Structured as pure functions and unit tested locally.
+- Silver catalog table via partition projection.
+- ADR 0006: pure-function PySpark transforms for testability.
+
 ### Fixed
 - OIDC trust policy now matches subject claims containing GitHub's numeric owner and repository IDs.
-=======
->>>>>>> origin/main
