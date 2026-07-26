@@ -6,3 +6,4 @@ requests>=2.32
 pydantic>=2.9
 ruff>=0.8
 pre-commit>=4.0
+pyspark>=3.5,<4.0

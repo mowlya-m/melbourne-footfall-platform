@@ -30,6 +30,11 @@ ignore = [
 # Asserts are the point of a test file.
 "tests/**/*.py" = ["S101"]
 
+# PySpark's universal convention is `functions as F` and `types as T`.
+# N812 objects to lowercase-imported-as-uppercase; here it's idiomatic.
+"src/glue_jobs/*.py" = ["N812"]
+"tests/unit/test_bronze_to_silver.py" = ["N812", "S101"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]

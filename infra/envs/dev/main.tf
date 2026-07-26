@@ -81,3 +81,14 @@ module "ingestion" {
   schedule_expression = "rate(5 minutes)"
   max_records_per_run = 500
 }
+
+module "processing" {
+  source = "../../modules/processing"
+
+  project_name       = var.project_name
+  environment        = var.environment
+  data_bucket_name   = module.storage.data_bucket_name
+  data_bucket_arn    = module.storage.data_bucket_arn
+  scripts_bucket     = "melbourne-footfall-tfstate-782208973566"
+  glue_database_name = module.storage.glue_database_name
+}
