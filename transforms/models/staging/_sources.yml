@@ -1,0 +1,16 @@
+version: 2
+
+sources:
+  - name: silver
+    description: "Cleaned, deduplicated pedestrian readings produced by the Glue job."
+    database: awsdatacatalog
+    schema: melbourne_footfall_dev
+    tables:
+      - name: silver_pedestrian
+        description: "One row per sensor per minute, deduplicated on the natural key."
+        columns:
+          - name: dedupe_key
+            description: "Natural key: location_id#sensing_datetime."
+            data_tests:
+              - unique
+              - not_null

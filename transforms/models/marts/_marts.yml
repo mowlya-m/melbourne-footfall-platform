@@ -1,0 +1,48 @@
+version: 2
+
+models:
+  - name: dim_date
+    description: "Date dimension with calendar attributes, generated from observed dates."
+    columns:
+      - name: date_day
+        data_tests: [unique, not_null]
+
+  - name: dim_sensor
+    description: "Sensor dimension, SCD Type 2. One row per sensor version."
+    columns:
+      - name: sensor_key
+        data_tests: [unique, not_null]
+      - name: location_id
+        data_tests: [not_null]
+      - name: is_current
+        data_tests:
+          - not_null
+
+  - name: fact_footfall_hourly
+    description: "Foot traffic aggregated to sensor and hour. Grain: one row per sensor per hour."
+    columns:
+      - name: footfall_key
+        data_tests: [unique, not_null]
+      - name: sensor_key
+        description: "FK to dim_sensor."
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_sensor')
+                field: sensor_key
+      - name: date_key
+        description: "FK to dim_date."
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_date')
+                field: date_day
+      - name: pedestrian_count
+        data_tests: [not_null]
+      - name: event_hour
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                max_value: 23

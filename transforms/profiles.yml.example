@@ -1,0 +1,15 @@
+# Copy to ~/.dbt/profiles.yml or set DBT_PROFILES_DIR to this directory.
+# dbt-athena reads AWS credentials from the standard AWS chain, so no secrets
+# live here.
+melbourne_footfall:
+  target: dev
+  outputs:
+    dev:
+      type: athena
+      s3_staging_dir: s3://melbourne-footfall-athena-results-dev-782208973566/dbt/
+      s3_data_dir: s3://melbourne-footfall-data-dev-782208973566/gold/
+      region_name: ap-southeast-2
+      database: awsdatacatalog
+      schema: melbourne_footfall_dev
+      work_group: melbourne-footfall-dev
+      threads: 4
