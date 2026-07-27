@@ -15,3 +15,9 @@ variable "aws_region" {
   type        = string
   default     = "ap-southeast-2"
 }
+
+variable "alert_email" {
+  description = "Address that receives operational alerts."
+  type        = string
+  default     = "mowlyamanjunath@gmail.com"
+}

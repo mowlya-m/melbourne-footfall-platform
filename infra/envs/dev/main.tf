@@ -92,3 +92,17 @@ module "processing" {
   scripts_bucket     = "melbourne-footfall-tfstate-782208973566"
   glue_database_name = module.storage.glue_database_name
 }
+
+module "observability" {
+  source = "../../modules/observability"
+
+  project_name = var.project_name
+  environment  = var.environment
+  aws_region   = var.aws_region
+  alert_email  = var.alert_email
+
+  producer_function_name = module.ingestion.function_name
+  kinesis_stream_name    = module.streaming.stream_name
+  firehose_name          = module.streaming.firehose_name
+  glue_job_name          = module.processing.glue_job_name
+}

@@ -33,5 +33,9 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Gold layer: dbt star schema — dim_date, SCD Type 2 dim_sensor, fact_footfall_hourly. Tested against live data: 245 facts, 89 sensor versions, all schema and referential tests passing.
 - ADR 0007: SCD Type 2 on the sensor dimension.
 
+- Observability: CloudWatch alarms for producer errors and silence, Kinesis throttling, Firehose delivery, and Glue failure, wired to SNS email, plus a pipeline health dashboard.
+- Operational runbook with a diagnose-and-fix procedure for every alarm.
+- ADR 0008: monitoring shipped with a runbook, not just alarms.
+
 ### Fixed
 - OIDC trust policy now matches subject claims containing GitHub's numeric owner and repository IDs.
