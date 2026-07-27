@@ -47,3 +47,8 @@ output "silver_table_name" {
   description = "Glue catalog table over Silver."
   value       = module.processing.silver_table_name
 }
+
+output "ops_dashboard" {
+  description = "CloudWatch dashboard summarising pipeline health."
+  value       = module.observability.dashboard_name
+}
