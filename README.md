@@ -250,8 +250,6 @@ build fails — Gold does not publish wrong data.
 
 ---
 
-### Status
-
 ## Status
 
 | Component | Status |
@@ -263,15 +261,18 @@ build fails — Gold does not publish wrong data.
 | Bronze catalog table, queryable via Athena | Done |
 | Silver: Glue PySpark job, cleaning and deduplication | Done |
 | Gold: dbt star schema with SCD Type 2 | Done |
-| Orchestration: Step Functions | Not started |
-| Observability: alarms, freshness checks, runbook | Not started |
-| Forecasting model and dashboard | Not started |
+| Orchestration: Step Functions batch pipeline | Done |
+| Observability: alarms, dashboard, runbook | Done |
+| Dashboard (Streamlit) | Not started |
+| Forecasting model | Not started |
 
-The full medallion pipeline is live and verified. Ingestion runs every five
-minutes; the batch layers are deployed by CI and rebuilt by dbt. A recent run
-produced 876 deduplicated Silver readings and a Gold star
-schema of 245 hourly facts across 89 sensor versions, with all 20 dbt data tests
-passing.
+The pipeline is complete and self-running: ingestion every five minutes, an
+hourly Step Functions batch refresh with retries and SNS alerting, and Gold
+rebuilt and tested by dbt on every deploy. Seven CloudWatch alarms and a health
+dashboard cover the failure modes, each with a runbook entry. Verified end to
+end — a full orchestrated execution succeeded, producing 876 deduplicated Silver
+readings and a Gold star schema of 245 hourly facts across 89 sensor versions,
+with all dbt data tests passing.
 
 ---
 

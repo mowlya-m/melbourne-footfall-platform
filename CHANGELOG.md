@@ -40,5 +40,8 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Orchestration: Step Functions state machine running the hourly Silver refresh with native Glue waiting, transient-error retries, and success/failure SNS alerts. Hourly schedule and an execution-failure alarm.
 - ADR 0009: Step Functions over a Lambda or MWAA for batch orchestration.
 
+- Orchestration: Step Functions hourly batch pipeline with retries and SNS alerting.
+- Observability: CloudWatch alarms, health dashboard, and operational runbook.
+
 ### Fixed
 - OIDC trust policy now matches subject claims containing GitHub's numeric owner and repository IDs.
