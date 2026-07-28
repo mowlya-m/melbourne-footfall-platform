@@ -75,6 +75,23 @@ data "aws_iam_policy_document" "state_machine" {
     ]
     resources = ["arn:aws:events:*:*:rule/StepFunctionsGetEventsForGlueJobRule"]
   }
+
+  # Step Functions logging requires these on "*". AWS manages the log-delivery
+  # resources itself, so the actions cannot be scoped to a specific log group.
+  statement {
+    effect = "Allow"
+    actions = [
+      "logs:CreateLogDelivery",
+      "logs:GetLogDelivery",
+      "logs:UpdateLogDelivery",
+      "logs:DeleteLogDelivery",
+      "logs:ListLogDeliveries",
+      "logs:PutResourcePolicy",
+      "logs:DescribeResourcePolicies",
+      "logs:DescribeLogGroups",
+    ]
+    resources = ["*"]
+  }
 }
 
 resource "aws_iam_role_policy" "state_machine" {
