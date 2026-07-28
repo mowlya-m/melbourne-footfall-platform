@@ -43,5 +43,8 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Orchestration: Step Functions hourly batch pipeline with retries and SNS alerting.
 - Observability: CloudWatch alarms, health dashboard, and operational runbook.
 
+- Forecasting: XGBoost next-hour pedestrian-count model over the Gold fact table, with chronological validation and leakage-safe feature engineering. Unit tested without AWS.
+- ADR 0010: XGBoost with time-based validation.
+
 ### Fixed
 - OIDC trust policy now matches subject claims containing GitHub's numeric owner and repository IDs.

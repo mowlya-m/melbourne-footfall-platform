@@ -264,7 +264,7 @@ build fails — Gold does not publish wrong data.
 | Orchestration: Step Functions batch pipeline | Done |
 | Observability: alarms, dashboard, runbook | Done |
 | Dashboard (Streamlit) | Not started |
-| Forecasting model | Not started |
+| Forecasting model (XGBoost on Gold) | Done |
 
 The pipeline is complete and self-running: ingestion every five minutes, an
 hourly Step Functions batch refresh with retries and SNS alerting, and Gold
@@ -275,6 +275,32 @@ readings and a Gold star schema of 245 hourly facts across 89 sensor versions,
 with all dbt data tests passing.
 
 ---
+
+## Forecasting
+
+A next-hour pedestrian-count forecaster trained on the Gold fact table. It uses
+XGBoost with a chronological train/test split — the earliest 80% of the timeline
+trains, the latest 20% tests — because a random split would leak future
+information and inflate the score.
+
+Features are derived entirely from `fact_footfall_hourly`: cyclical encodings of
+hour and day, a weekend flag, per-sensor lags at 1, 2, 3, and 24 hours, and
+rolling means. The 24-hour lag (same hour yesterday) is typically the strongest
+predictor.
+
+The feature engineering is pure functions, unit tested without AWS, with
+explicit tests that lags never leak across sensors and that no feature leaks the
+target — the two mistakes that make an offline model look good and a deployed one
+fail.
+
+Train it:
+
+```bash
+cd src && python -m forecasting.train --output model.json
+```
+
+This reads Gold via Athena, builds features, trains, and reports MAE and MAPE on
+the held-out tail. See ADR 0010 for the modelling decisions.
 
 ## Licence
 
