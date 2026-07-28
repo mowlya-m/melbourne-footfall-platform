@@ -65,7 +65,9 @@ data "aws_iam_policy_document" "glue_job" {
     ]
     resources = [
       "${var.data_bucket_arn}/silver/*",
+      "${var.data_bucket_arn}/silver_*",
       "${var.data_bucket_arn}/quarantine/*",
+      "${var.data_bucket_arn}/quarantine_*",
     ]
   }
 
