@@ -106,3 +106,14 @@ module "observability" {
   firehose_name          = module.streaming.firehose_name
   glue_job_name          = module.processing.glue_job_name
 }
+
+module "orchestration" {
+  source = "../../modules/orchestration"
+
+  project_name  = var.project_name
+  environment   = var.environment
+  glue_job_name = module.processing.glue_job_name
+  ops_topic_arn = module.observability.ops_topic_arn
+
+  schedule_expression = "rate(1 hour)"
+}
