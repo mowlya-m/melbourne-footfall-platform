@@ -37,5 +37,8 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Operational runbook with a diagnose-and-fix procedure for every alarm.
 - ADR 0008: monitoring shipped with a runbook, not just alarms.
 
+- Orchestration: Step Functions state machine running the hourly Silver refresh with native Glue waiting, transient-error retries, and success/failure SNS alerts. Hourly schedule and an execution-failure alarm.
+- ADR 0009: Step Functions over a Lambda or MWAA for batch orchestration.
+
 ### Fixed
 - OIDC trust policy now matches subject claims containing GitHub's numeric owner and repository IDs.

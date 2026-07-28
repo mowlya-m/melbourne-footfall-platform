@@ -52,3 +52,8 @@ output "ops_dashboard" {
   description = "CloudWatch dashboard summarising pipeline health."
   value       = module.observability.dashboard_name
 }
+
+output "orchestrator_name" {
+  description = "Step Functions state machine running the hourly batch refresh."
+  value       = module.orchestration.state_machine_name
+}
