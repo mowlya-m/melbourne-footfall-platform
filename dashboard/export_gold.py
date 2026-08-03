@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 
 DATABASE = "melbourne_footfall_dev"
 WORKGROUP = "melbourne-footfall-dev"
