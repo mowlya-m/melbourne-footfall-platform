@@ -46,5 +46,10 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Forecasting: XGBoost next-hour pedestrian-count model over the Gold fact table, with chronological validation and leakage-safe feature engineering. Unit tested without AWS.
 - ADR 0010: XGBoost with time-based validation.
 
+- Dashboard: Streamlit serving layer reading the Gold star schema via Athena,
+  with busiest-sensor, hourly-rhythm and weekday/weekend views. Pure-function
+  transforms unit tested without AWS.
+- ADR 0011: Streamlit for the serving layer.
+
 ### Fixed
 - OIDC trust policy now matches subject claims containing GitHub's numeric owner and repository IDs.

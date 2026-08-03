@@ -1,5 +1,16 @@
 # Melbourne Foot Traffic Intelligence
 
+## Two views
+
+- **melbourne-footfall-dashboard.html** — a self-contained, animated dashboard
+  (Leaflet map, live charts, forecast overlay, Apple-style UI). Opens in any
+  browser with no server. Data is embedded; refresh it from live Athena with
+  `python export_gold.py --embed melbourne-footfall-dashboard.html`.
+- **app.py** — a Streamlit app that queries Athena directly for interactive use.
+
+The HTML view is the shareable snapshot; the Streamlit view is the live analyst
+tool.
+
 A production-style streaming data platform on AWS built on live City of Melbourne
 pedestrian sensor data, forecasting hourly foot traffic to support CBD retail and
 hospitality staffing decisions.
@@ -263,7 +274,7 @@ build fails — Gold does not publish wrong data.
 | Gold: dbt star schema with SCD Type 2 | Done |
 | Orchestration: Step Functions batch pipeline | Done |
 | Observability: alarms, dashboard, runbook | Done |
-| Dashboard (Streamlit) | Not started |
+| Dashboard (Streamlit) | Done |
 | Forecasting model (XGBoost on Gold) | Done |
 
 The pipeline is complete and self-running: ingestion every five minutes, an
