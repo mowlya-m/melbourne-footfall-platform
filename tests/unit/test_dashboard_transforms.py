@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
 import pandas as pd
 import pytest
 
-import sys
-from pathlib import Path
 # dashboard package lives at repo root; make it importable
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
